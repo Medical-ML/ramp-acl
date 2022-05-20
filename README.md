@@ -14,5 +14,6 @@ Predict the Presence of Ramp Lesions in ACL Deficient Knees using Machine Learni
     - You might get an error about `ERROR: After October 2020 you may experience errors when installing or updating packages. This is because pip will change the way that it resolves dependency conflicts.` or some incompatibility issue with TensorFlow. But you can ignore these error for now.
 1. If running for the first time without input and output directories made: 
     1. `$ mkdir input_dir;mkdir output_dir`
-1. `$ python3 ramp_acl.py -i input_dir -o output_dir -f sample_data.xlsx`
-1. Results will be printed and figures will be saved in `output_dir`.  
+1. `$ python3 ramp_acl.py -i input_dir -o output_dir -f data.xlsx`
+    - **NOTE**: The included `sample_data_format.xlsx` **DOES NOT** run correctly with this code since the Excel file does not contain enough valid data. Please just use it as a reference for figuring out the data format that works with this particular code. 
+3. Results will be printed and figures will be saved in `output_dir`.  

@@ -119,10 +119,17 @@ def curate_data(data):
     # swap +/- in "coronal alignment, HKA angle (varus - , valgus +)." Varus should be + and valgus should be -.
     data["coronal alignment"] = data["coronal alignment"]*-1
 
+
     # Get feature list and exclude items
     feature_index_list = data.columns
     exclude_list = ["name","regid"]
     feature_index_list = feature_index_list.drop(exclude_list)
+
+    # The "alignment" value is based on "coronal alignment" value. (if negative, valgus (1). Else, varus (0)). 
+    data["alignment"] = np.where(data['coronal alignment'] < 0, 1, 0)
+ 
+    # The "alignment.1" value is based on "coronal alignment" value. (if > 6, 0. Else, 1). 
+    data["alignment.1"] = np.where(data['coronal alignment'] >= 6, 0, 1)
 
     # Set "has_ramp" as label
     x = data[feature_index_list.drop("has_ramp")] # Features
@@ -142,7 +149,8 @@ def define_and_set_groups_2():
     hw_bmi_group = ["BMI","bmi_eg_25"]
     time_to_inj_group = ["inj_to_op_time_acute0_chronic1"]
     pivot_group = ["pivot shift grade", "pivot 2 groups"]
-    alignment_group = ["coronal alignment", "alignment", "alignment.1"]
+#    alignment_group = ["coronal alignment", "alignment", "alignment.1"]
+    alignment_group = ["alignment.1"]
     telos_group = ["Telos(side to side diff)", "S to S"]
 
     list_of_fgrouplist = [age_group, hw_bmi_group, time_to_inj_group, \

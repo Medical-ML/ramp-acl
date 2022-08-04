@@ -88,7 +88,7 @@ feat_to_labelname_dict = {
     'has_bone_contusion_mtp': 'MTP bone contusion', 
     'mri_med': 'Medial tibial slope', 
     'alignment': 'Alignment (Varus/Valgus)', 
-    'alignment.1': 'Alignment (3 Degree Varus)', 
+    'alignment.1': 'Alignment (6 Degree Varus)', 
     'meniscal_slope_med': 'Medial meniscal slope',
     'coronal alignment': 'Coronal alignment',
     'mri_has_ramp': 'MRI diagnosis',

@@ -53,6 +53,7 @@ import joblib
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+#import matplotlib as mpl
 import pickle
 
 import ml_library as ml_lib
@@ -63,6 +64,8 @@ NUMBER_OF_NN_RUNS = 20
 NUMBER_OF_OTHER_RUNS = 20
 NUMBER_OF_EPOCHS = 50
 K_FOLD = 100
+
+plt.rcParams.update({'figure.dpi':1200})
 
 ### Feature to LableName Mapping
 feat_to_labelname_dict = {
@@ -440,10 +443,10 @@ def plot_partial_dependence_plot(model, x_train, fset, output_dir, filename, plo
     else:
         features = fset_to_plot
     plot_partial_dependence(model, x_train, features, n_jobs=3, feature_names=fset_list)
-    fig = plt.gcf()
+    fig = plt.gcf().set_dpi(1200)
     fig.suptitle(plot_title)
     fig.subplots_adjust(hspace=0.7)
-    fig.savefig(output_dir + filename)
+    fig.savefig(output_dir + filename, format='eps')
 
 
 def rf_permutation_importance(model, x_test, y_test, fset, output_dir, filename):
@@ -459,7 +462,7 @@ def rf_permutation_importance(model, x_test, y_test, fset, output_dir, filename)
     ax.set_title("Permutation Importances (test set)")
     fig.tight_layout()
 #    plt.show()
-    fig.savefig(output_dir + filename)
+    fig.savefig(output_dir + filename, format='eps')
 
 
 def k_fold_cv(lr_model, rf_model, nn_model, result_best_lr, result_best_rf, result_best_nn, k):
@@ -638,7 +641,7 @@ def main():
     print("* RF. Accuracy: {}, specificity: {}, sensitivity: {}".format(result_best_rf["accuracy"], 
                                                                       result_best_rf["specificity"], 
                                                                       result_best_rf["sensitivity"]))
-    plt.figure()
+    plt.figure(dpi=1200)
 #    plot_partial_dependence_plot(result_best_rf["model"], result_best_rf["x_train"], "age;BMI;inj_to_op_time_acute0_chronic1;pivot shift grade;alignment;S to S;sex;has_mci_damage;has_segond_fx;Injury Mechanism;Medial tibial slope;Medial meniscal slope;mri_lat;meniscal_slope_lat;has_bone_contusion_lfc;has_bone_contusion_mfc;has_bone_contusion_ltp;has_bone_contusion_mtp;Deep sulcus sign;LFC ratio", output_dir, "rf_pdp.png", "Partial Dependence of Features in RF",[10,11,19])
     if not rf_was_there: 
         ml_lib.save_model_and_fsetmap(result_best_rf["model"], input_dir + "rf.model", 
@@ -649,11 +652,11 @@ def main():
 #    print(importances)
 
     rf_permutation_importance(result_best_rf["model"], result_best_rf["x_test"], 
-                              result_best_rf["y_test"], fset_best_rf, output_dir, "perm_importance_rf.png")
+                              result_best_rf["y_test"], fset_best_rf, output_dir, "perm_importance_rf.eps")
 
 
     # Create new plot figure for ROC curve
-    plt.figure()
+    plt.figure(dpi=1200)
 
     plot_roc_curve_jstyle("LogisticRegression", result_best_lr, 0)
     plot_roc_curve_jstyle("RandomForest", result_best_rf, 1)
@@ -663,7 +666,7 @@ def main():
     plt.ylabel('True Positive Rate')
     plt.title('ROC curve')
     plt.legend(loc='best')
-    plt.savefig(output_dir + 'roc_curve.png')
+    plt.savefig(output_dir + 'roc_curve.eps', format='eps')
 #    plt.show()          
 
 
